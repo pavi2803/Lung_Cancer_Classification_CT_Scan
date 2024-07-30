@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Pavithra/Documents/Notebooks/Selfrojects/Lung_Cancer_Classification_CT_Scan/mlruns/0/0e784a7796fe482f9fe099d63bab0075/artifacts
+end_time: 1722325041591
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0e784a7796fe482f9fe099d63bab0075
+run_name: bold-bear-761
+run_uuid: 0e784a7796fe482f9fe099d63bab0075
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722324988332
+status: 3
+tags: []
+user_id: Pavithra

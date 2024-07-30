@@ -1,0 +1,55 @@
+stages:
+  data_ingestion:
+    cmd: python src/lungClassifier/pipeline/stage_01.py
+    deps:
+      - src/lungClassifier/pipeline/stage_01.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/Chest-CT-Scan-data
+
+  
+  prepare_base_model:
+    cmd: python src/lungClassifier/pipeline/stage_02.py
+    deps:
+      - src/lungClassifier/pipeline/stage_02.py
+      - config/config.yaml
+    params:
+      - IMAGE_SIZE
+      - INCLUDE_TOP
+      - CLASSES
+      - WEIGHTS
+      - LEARNING_RATE
+    outs:
+      - artifacts/prepare_base_model
+
+  
+  training:
+    cmd: python src/lungClassifier/pipeline/stage_03.py
+    deps:
+      - src/lungClassifier/pipeline/stage_03.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest-CT-Scan-data
+      - artifacts/prepare_base_model
+    params:
+      - IMAGE_SIZE
+      - EPOCHS
+      - BATCH_SIZE
+      - AUGMENTATION
+    outs:
+      - artifacts/training/model.h5
+
+  
+  
+  evaluation:
+    cmd: python src/lungClassifier/pipeline/stage_04.py
+    deps:
+      - src/lungClassifier/pipeline/stage_04.py
+      - config/config.yaml
+      - artifacts/data_ingestion/Chest-CT-Scan-data
+      - artifacts/training/model.h5
+    params:
+      - IMAGE_SIZE
+      - BATCH_SIZE
+    metrics:
+    - scores.json:
+        cache: false
