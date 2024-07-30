@@ -1,6 +1,8 @@
 from src.lungClassifier import logger
 from src.lungClassifier.pipeline.stage_01 import DataIngestionTrainingPipeline
 from src.lungClassifier.pipeline.stage_02 import PrepareBaseModelTrainingPipeline
+from src.lungClassifier.pipeline.stage_03 import ModelTrainingPipeline
+import os
 
 STAGE_NAME = "Data Ingestion stage"
 
@@ -30,16 +32,16 @@ except Exception as e:
 
 
 
-# STAGE_NAME = "Training"
-# try: 
-#    logger.info(f"*******************")
-#    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-#    model_trainer = ModelTrainingPipeline()
-#    model_trainer.main()
-#    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-# except Exception as e:
-#         logger.exception(e)
-#         raise e
+STAGE_NAME = "Training"
+try: 
+   logger.info(f"*******************")
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+   model_trainer = ModelTrainingPipeline()
+   model_trainer.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
 
 
 
