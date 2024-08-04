@@ -65,12 +65,14 @@ st.write("Upload an image to classify it as Normal or Adenocarcinoma Cancer.")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    temp_file_path = os.path.join("temp", uploaded_file.name)
+    temp_dir = Path("temp")
+    temp_file_path = temp_dir / uploaded_file.name
     
     # Ensure the temp directory exists
-    if not os.path.exists("temp"):
-        os.makedirs("temp")
+    if not temp_dir.exists():
+        temp_dir.mkdir(parents=True)
     
+    # Save the uploaded file
     with open(temp_file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
     
