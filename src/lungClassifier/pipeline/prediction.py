@@ -16,10 +16,13 @@ class PredictionPipeline:
         return img
 
     def predict(self):
-        model_path = "model_final/model.h5"
+        model_path = Path("model_final") / "model.h5"
         
-        # Load the model
-        if not Path(model_path).exists():
+        # Debugging information
+        st.write(f"Current working directory: {Path.cwd()}")
+        st.write(f"Model path: {model_path}")
+        
+        if not model_path.exists():
             st.error("Model file not found. Please check the path.")
             return "Error: Model file not found"
 
@@ -42,7 +45,6 @@ class PredictionPipeline:
             st.error(f"Error processing image: {e}")
             return f"Error: {e}"
 
-    
         if result[0] == 1:
             prediction = 'Normal'
         else:
@@ -51,7 +53,6 @@ class PredictionPipeline:
 
 # Streamlit UI
 st.title("Lung Cancer Prediction")
-st.subheader("Transfer Learning with VGGNET-16")
 st.write("Upload an image to classify it as Normal or Adenocarcinoma Cancer.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
