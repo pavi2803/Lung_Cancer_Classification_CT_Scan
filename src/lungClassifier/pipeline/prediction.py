@@ -6,6 +6,7 @@ import os
 import base64
 from PIL import Image
 from io import BytesIO
+from pathlib import Path
 
 class PredictionPipeline:
     def __init__(self, filename):
