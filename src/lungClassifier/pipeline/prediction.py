@@ -24,7 +24,7 @@ class PredictionPipeline:
 
   
     def predict(self):
-        model_path = os.path.join("model.h5")
+        model_path = "model.h5"
         
         if not os.path.exists(model_path):
             st.error("Model file not found. Please check the path.")
