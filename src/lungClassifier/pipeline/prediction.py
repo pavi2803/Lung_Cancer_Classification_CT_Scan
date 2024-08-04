@@ -2,35 +2,23 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import streamlit as st
-import os
-import base64
 from PIL import Image
 from io import BytesIO
 from pathlib import Path
 
 class PredictionPipeline:
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, image_bytes):
+        self.image_bytes = image_bytes
 
-    def img_to_base64(self, img_path):
-        with open(img_path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode("utf-8")
-
-
-    def base64_to_image(self, base64_str):
-        img_data = base64.b64decode(base64_str)
-        img = Image.open(BytesIO(img_data))
+    def img_to_image(self):
+        img = Image.open(BytesIO(self.image_bytes))
         img = img.convert("RGB")  # Convert image to RGB
         return img
 
-  
     def predict(self):
-        model_path = "model.h5"
+        model_path = "model_final/model.h5"
         
-        # Debugging information
-        st.write(f"Current working directory: {Path.cwd()}")
-        st.write(f"Model path: {model_path}")
-        
+        # Load the model
         if not Path(model_path).exists():
             st.error("Model file not found. Please check the path.")
             return "Error: Model file not found"
@@ -42,8 +30,7 @@ class PredictionPipeline:
             return f"Error: {e}"
 
         try:
-            base64_image = self.img_to_base64(self.filename)
-            img = self.base64_to_image(base64_image)
+            img = self.img_to_image()
             img = img.resize((224, 224))
             img = image.img_to_array(img)
             img = np.expand_dims(img, axis=0)
@@ -51,11 +38,11 @@ class PredictionPipeline:
 
             predictions = model.predict(img)
             result = np.argmax(predictions, axis=1)
-            st.write(f"Raw predictions: {predictions}")  # Print raw predictions
         except Exception as e:
             st.error(f"Error processing image: {e}")
             return f"Error: {e}"
 
+    
         if result[0] == 1:
             prediction = 'Normal'
         else:
@@ -63,27 +50,17 @@ class PredictionPipeline:
         return prediction
 
 # Streamlit UI
-st.title("Image Classification with Keras Model")
+st.title("Lung Cancer Prediction")
+st.subheader("Transfer Learning with VGGNET-16")
 st.write("Upload an image to classify it as Normal or Adenocarcinoma Cancer.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Use pathlib to handle file paths
-    temp_dir = Path("temp")
-    temp_file_path = temp_dir / uploaded_file.name
-    
-    # Ensure the temp directory exists
-    if not temp_dir.exists():
-        temp_dir.mkdir(parents=True)
-    
-    # Save the uploaded file
-    with open(temp_file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-    
+    image_bytes = uploaded_file.read()
     st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
     
-    pipeline = PredictionPipeline(temp_file_path)
+    pipeline = PredictionPipeline(image_bytes)
     prediction = pipeline.predict()
     
     st.write(f"Prediction: {prediction}")
