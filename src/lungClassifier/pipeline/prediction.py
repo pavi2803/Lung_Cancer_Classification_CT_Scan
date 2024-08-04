@@ -25,14 +25,14 @@ class PredictionPipeline:
 
   
     def predict(self):
-        model_path = "model.h5"
+        model_path = Path("model.h5")
         
-        if not os.path.exists(model_path):
+        if not model_path.exists(model_path):
             st.error("Model file not found. Please check the path.")
             return "Error: Model file not found"
 
         try:
-            model = load_model(model_path)
+            model = load_model()
         except Exception as e:
             st.error(f"Error loading model: {e}")
             return f"Error: {e}"
