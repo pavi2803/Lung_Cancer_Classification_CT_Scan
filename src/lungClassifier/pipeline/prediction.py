@@ -53,6 +53,7 @@ class PredictionPipeline:
 
 # Streamlit UI
 st.title("Lung Cancer Prediction")
+st.subheader("Tranfer Learning with VGGNET-16")
 st.write("Upload an image to classify it as Normal or Adenocarcinoma Cancer.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
