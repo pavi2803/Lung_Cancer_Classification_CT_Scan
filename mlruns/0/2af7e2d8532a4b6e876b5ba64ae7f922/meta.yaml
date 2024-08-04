@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Pavithra/Documents/Notebooks/Selfrojects/Lung_Cancer_Classification_CT_Scan/mlruns/0/2af7e2d8532a4b6e876b5ba64ae7f922/artifacts
+end_time: 1722771278126
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2af7e2d8532a4b6e876b5ba64ae7f922
+run_name: resilient-quail-871
+run_uuid: 2af7e2d8532a4b6e876b5ba64ae7f922
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722771255868
+status: 3
+tags: []
+user_id: Pavithra

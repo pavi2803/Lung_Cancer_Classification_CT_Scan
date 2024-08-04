@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Pavithra/Documents/Notebooks/Selfrojects/Lung_Cancer_Classification_CT_Scan/mlruns/0/4311d29322b34e0fbf95fdbe4076ca6f/artifacts
+end_time: 1722770900358
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4311d29322b34e0fbf95fdbe4076ca6f
+run_name: clumsy-deer-937
+run_uuid: 4311d29322b34e0fbf95fdbe4076ca6f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722770879955
+status: 3
+tags: []
+user_id: Pavithra
