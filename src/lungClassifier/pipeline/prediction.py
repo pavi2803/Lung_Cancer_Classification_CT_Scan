@@ -25,14 +25,18 @@ class PredictionPipeline:
 
   
     def predict(self):
-        model_path = Path("model.h5")
+        model_path = "model.h5"
         
-        if not model_path.exists(model_path):
+        # Debugging information
+        st.write(f"Current working directory: {Path.cwd()}")
+        st.write(f"Model path: {model_path}")
+        
+        if not Path(model_path).exists():
             st.error("Model file not found. Please check the path.")
             return "Error: Model file not found"
 
         try:
-            model = load_model()
+            model = load_model(model_path)
         except Exception as e:
             st.error(f"Error loading model: {e}")
             return f"Error: {e}"
@@ -59,13 +63,13 @@ class PredictionPipeline:
         return prediction
 
 # Streamlit UI
-st.title("Lung Cancer Prediction")
-st.subheader("Transfer Learning on VGGNET-16")
+st.title("Image Classification with Keras Model")
 st.write("Upload an image to classify it as Normal or Adenocarcinoma Cancer.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
+    # Use pathlib to handle file paths
     temp_dir = Path("temp")
     temp_file_path = temp_dir / uploaded_file.name
     
