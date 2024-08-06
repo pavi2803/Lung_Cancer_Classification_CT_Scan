@@ -2,25 +2,25 @@
 This project focuses on classifying lung cancer by training on CT scan images of lungs. It involves a structured workflow for data ingestion, model training, evaluation, and more.
 
 ### Workflows
-1. Project Initialization
+1. **Project Initialization**
 Template.py: Creates the layout, files, and directories required for the project.
-2. Configuration Files
+2. **Configuration Files**
 config.yaml: Contains essential configurations such as API connections and paths.
 params.yaml: Holds the hyperparameters settings for the model.
-3. Entity Models
+3. **Entity Models**
 Entities: Represents the core data structures of the application, such as user, product, order, etc.
-4. Configuration Manager
+4. **Configuration Manager**
 Configuration Manager (src/config): Contains necessary configuration, data utilities, and functions required for the components of the system.
-5. Project Components
+5. **Project Components**
 Data Ingestion: Collects and preprocesses the data.
 Base Model Preparation: Sets up the initial model structure.
 Model Training: Trains the model on the preprocessed data.
 Model Evaluation: Evaluates the model's performance.
-6. Pipeline
+6. **Pipeline**
 Pipeline Creation/Update: Contains the workflow stages 1, 2, 3, and 4 with modular coding for each stage.
-7. Main Entry Point
+7. **Main Entry Point**
 main.py: The main entry point of the system, orchestrating the workflow.
-8. Data Version Control
+8. **Data Version Control**
 dvc.yaml: Enables ease of code execution and experimentation by saving the runtime configurations.
 
 ### Tech Stack
