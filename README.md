@@ -24,10 +24,10 @@ main.py: The main entry point of the system, orchestrating the workflow.
 dvc.yaml: Enables ease of code execution and experimentation by saving the runtime configurations.
 
 ### Tech Stack
-Python: Core programming language used for developing the application.
-DVC (Data Version Control): Manages data and model versioning.
-YAML: Used for configuration files.
-API Integration: For connecting to external data sources.
+* Python: Core programming language used for developing the application.
+* DVC (Data Version Control): Manages data and model versioning.
+* YAML: Used for configuration files.
+* API Integration: For connecting to external data sources.
 
 ### Getting Started
 #### Prerequisites
