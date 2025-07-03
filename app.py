@@ -4,7 +4,6 @@ from flask_cors import CORS, cross_origin
 from lungClassifier.utils.common import decodeImage
 from lungClassifier.pipeline.prediction import PredictionPipeline
 
-
 os.putenv('LANG', 'en_US.UTF-8')
 os.putenv('LC_ALL', 'en_US.UTF-8')
 
@@ -16,8 +15,6 @@ class ClientApp:
     def __init__(self):
         self.filename = "inputImage.jpg"
         self.classifier = PredictionPipeline(self.filename)
-
-
 
 
 

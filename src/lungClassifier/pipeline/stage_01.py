@@ -1,7 +1,6 @@
-from src.lungClassifier.config.configuration import ConfigurationManager
-from src.lungClassifier.components.data_ingestion import DataIngestion
-from src.lungClassifier import logger
-
+from config.configuration import ConfigurationManager
+from components.data_ingestion import DataIngestion
+from lungClassifier import logger
 
 
 STAGE_NAME = "DATA INGESTION STAGE"
@@ -10,7 +9,6 @@ STAGE_NAME = "DATA INGESTION STAGE"
 class DataIngestionTrainingPipeline:
     def __init__(self) -> None:
         pass
-
 
     def main(self):
         config = ConfigurationManager()
