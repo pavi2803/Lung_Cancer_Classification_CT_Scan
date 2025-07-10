@@ -1,25 +1,6 @@
-# tensorflow==2.12.0
-# pandas 
-# gdown
-# dvc
-# mlflow==2.2.2
-# notebook
-# numpy
-# matplotlib
-# seaborn
-# python-box==6.0.2
-# pyYAML
-# tqdm
-# ensure==1.0.2
-# joblib
-# types-PyYAML
-# scipy
-# Flask
-# Flask-Cors
-# streamlit
 streamlit==1.35.0
-tensorflow~=2.12
+tensorflow==2.12.0
 torch==2.2.2
 torchvision==0.17.2
 numpy==1.24.3
-Pillow
+Pillow==9.5.0
