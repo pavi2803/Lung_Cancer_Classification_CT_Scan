@@ -30,6 +30,35 @@ class LungDetector:
             outputs = self.model(img)
             predicted_class = torch.argmax(outputs, dim=1).item()
         return predicted_class  # 1 for lung, 0 for not lung
+    
+
+import tensorflow as tf
+
+def lung_classifier(input_shape=(224,224,3), num_classes=2, freeze_all=True):
+    base_model = tf.keras.applications.VGG16(
+        input_shape=input_shape,
+        weights='imagenet',
+        include_top=False
+    )
+    
+    # Freeze layers if specified
+    if freeze_all:
+        for layer in base_model.layers:
+            layer.trainable = False
+
+    x = tf.keras.layers.Flatten()(base_model.output)
+    outputs = tf.keras.layers.Dense(units=num_classes, activation='softmax')(x)
+
+    model = tf.keras.models.Model(inputs=base_model.input, outputs=outputs)
+    model.compile(
+        optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),  # use your training lr here
+        loss=tf.keras.losses.CategoricalCrossentropy(),
+        metrics=['accuracy']
+    )
+    
+    return model
+
+
 
 
 # Main pipeline
@@ -63,6 +92,11 @@ class PredictionPipeline:
             keras_img = keras_image.img_to_array(keras_img)
             keras_img = np.expand_dims(keras_img, axis=0)
             keras_img = keras_img / 255.0
+
+
+
+            cancer_model = lung_classifier(input_shape=(224,224,3), num_classes=2, freeze_all=True)
+            cancer_model.load_weights("artifacts/training/model.h5")
 
             predictions = cancer_model.predict(keras_img)
             result = np.argmax(predictions, axis=1)
