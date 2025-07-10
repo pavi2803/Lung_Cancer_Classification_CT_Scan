@@ -1,20 +1,26 @@
-tensorflow==2.12.0
-pandas 
-gdown
-dvc
-mlflow==2.2.2
-notebook
-numpy
-matplotlib
-seaborn
-python-box==6.0.2
-pyYAML
-tqdm
-ensure==1.0.2
-joblib
-types-PyYAML
-scipy
-Flask
-Flask-Cors
+# tensorflow==2.12.0
+# pandas 
+# gdown
+# dvc
+# mlflow==2.2.2
+# notebook
+# numpy
+# matplotlib
+# seaborn
+# python-box==6.0.2
+# pyYAML
+# tqdm
+# ensure==1.0.2
+# joblib
+# types-PyYAML
+# scipy
+# Flask
+# Flask-Cors
+# streamlit
 streamlit
+torch
+torchvision
+tensorflow
+numpy
+Pillow
 -e .
