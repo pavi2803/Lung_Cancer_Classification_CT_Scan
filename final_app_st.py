@@ -9,6 +9,12 @@ from PIL import Image
 from io import BytesIO
 from pathlib import Path
 
+import tensorflow as tf
+import streamlit as st
+
+st.write(f"TensorFlow version: {tf.__version__}")
+
+
 # Load PyTorch Lung Detector
 class LungDetector:
     def __init__(self, model_path):
