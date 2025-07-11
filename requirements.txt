@@ -8,5 +8,5 @@ torchvision
 fastapi
 uvicorn
 python-multipart
-setuptools
+setuptools>=42
 wheel
