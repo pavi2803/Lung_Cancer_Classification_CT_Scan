@@ -1,10 +1,6 @@
-streamlit==1.35.0
-torch==2.2.2
-torchvision==0.17.2
-numpy==1.23.5       
-Pillow==9.5.0
 tensorflow==2.14.0
-
-
-
-
+torch
+torchvision
+numpy
+Pillow
+streamlit
