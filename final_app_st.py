@@ -81,7 +81,7 @@ class PredictionPipeline:
             cancer_model = model_from_json(loaded_model_json)
 
             # Load weights
-            cancer_model.load_weights("artifacts/training/model.weights.h5")  # match the file name
+            cancer_model.load_weights("artifacts/training/model.h5")  # match the file name
 
             # Compile model AFTER loading weights
             cancer_model.compile(
