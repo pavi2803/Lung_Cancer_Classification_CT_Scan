@@ -11,6 +11,7 @@ from pathlib import Path
 from tensorflow.keras.models import model_from_json
 import tensorflow as tf
 import streamlit as st
+from tensorflow.keras.models import load_model
 
 st.write(f"TensorFlow version: {tf.__version__}")
 
@@ -100,8 +101,8 @@ class PredictionPipeline:
             # cancer_model.load_weights("artifacts/training/model.h5")
 
             # Rebuild and load weights
-            cancer_model = cancer_classifier()
-            cancer_model.load_weights("artifacts/training/model.weights.h5")
+        
+            cancer_model = load_model("artifacts/training/model.h5")
 
             predictions = cancer_model.predict(keras_img)
             result = np.argmax(predictions, axis=1)
