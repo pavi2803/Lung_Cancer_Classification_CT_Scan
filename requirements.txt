@@ -1,12 +1,9 @@
-streamlit
-numpy==1.23.5
+setuptools>=65.0.0
+wheel>=0.38.0
 tensorflow==2.12.0
-ml_dtypes==0.2.0
-pillow
-torch
-torchvision
+torch==2.0.1
 fastapi
 uvicorn
 python-multipart
-setuptools>=42
-wheel
+pillow
+numpy==1.23.5
