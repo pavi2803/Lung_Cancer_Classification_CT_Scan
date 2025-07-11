@@ -1,23 +1,25 @@
-# Use official Python slim image (3.10 for compatibility)
-FROM python:3.10-slim
+# Use Python 3.10 (compatible with TF 2.12)
+FROM python:3.10
 
-# Set working directory inside container
+# Set environment vars to avoid issues
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set working directory
 WORKDIR /app
 
-# Upgrade pip and install build tools for any native packages
-RUN pip install --upgrade pip setuptools wheel
+# Copy app code
+COPY . /app
 
-# Copy requirements.txt (you'll create this next)
-COPY requirements.txt .
+# Install system dependencies
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-# Install python dependencies
+# Install Python dependencies
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Copy your entire project (adjust if needed)
-COPY . .
-
-# Expose the port your FastAPI app will run on
+# Expose port
 EXPOSE 10000
 
-# Command to run your FastAPI app
+# Start app with uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]

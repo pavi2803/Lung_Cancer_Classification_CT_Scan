@@ -1,8 +1,7 @@
 services:
   - type: web
     name: lung-cancer-api
-    dockerfilePath: Dockerfile
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.10"
+    env: docker
     plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
