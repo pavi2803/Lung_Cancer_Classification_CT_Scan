@@ -78,7 +78,7 @@ class PredictionPipeline:
                 model_json = json_file.read()
 
             cancer_model = model_from_json(model_json)
-            cancer_model.load_weights("artifacts/training/model_weights.h5")
+            cancer_model.load_weights("artifacts/training/model.weights.h5")
 
             # cancer_model = lung_classifier(input_shape=(224,224,3), num_classes=2, freeze_all=True)
             # cancer_model.load_weights("artifacts/training/model.h5")
