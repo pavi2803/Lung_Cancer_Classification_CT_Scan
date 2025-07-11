@@ -8,3 +8,5 @@ torchvision
 fastapi
 uvicorn
 python-multipart
+setuptools
+wheel
