@@ -39,8 +39,6 @@ class LungDetector:
             predicted_class = torch.argmax(outputs, dim=1).item()
         return predicted_class  # 1 for lung, 0 for not lung
 
-
-
 # Main pipeline
 class PredictionPipeline:
     def __init__(self, image_bytes):
@@ -74,14 +72,10 @@ class PredictionPipeline:
             keras_img = keras_img / 255.0
 
 
-            # Load architecture
-            with open("artifacts/training/model.json", "r") as json_file:
-                loaded_model_json = json_file.read()
-
-            cancer_model = model_from_json(loaded_model_json)
+            cancer_model = load_model("artifacts/training/cancer_model_fixed.keras")
 
             # Load weights
-            cancer_model.load_weights("artifacts/training/model.h5")  # match the file name
+            # cancer_model.load_weights("artifacts/training/model.h5")  # match the file name
 
             # Compile model AFTER loading weights
             cancer_model.compile(
@@ -112,7 +106,6 @@ if uploaded_file is not None:
     
     pipeline = PredictionPipeline(image_bytes)
     result = pipeline.predict()
-
     if result == "Normal":
         st.success("✅ It's Normal 😊")
     elif result == "Adenocarcinoma Cancer":

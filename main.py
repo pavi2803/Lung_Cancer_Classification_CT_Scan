@@ -6,6 +6,7 @@ import torch.nn as nn
 from torchvision import models, transforms
 import numpy as np
 import io
+from tensorflow.keras.models import load_model
 from tensorflow.keras.models import model_from_json
 import tensorflow as tf
 from pathlib import Path
@@ -37,15 +38,11 @@ class LungDetector:
 # Load lung detection model
 lung_model = LungDetector("artifacts/lung_ct_resnet_model1.pth")
 
-# Load Keras model
-with open("artifacts/training/model.json", "r") as json_file:
-    model_json = json_file.read()
+cancer_model = load_model("artifacts/training/model.h5")
 
-cancer_model = model_from_json(model_json)
-cancer_model.load_weights("artifacts/training/model.h5")
-cancer_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
-                     loss="categorical_crossentropy",
-                     metrics=["accuracy"])
+# cancer_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
+#                      loss="categorical_crossentropy",
+#                      metrics=["accuracy"])
 
 def preprocess_image(image_bytes):
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
