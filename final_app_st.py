@@ -8,7 +8,7 @@ import streamlit as st
 from PIL import Image
 from io import BytesIO
 from pathlib import Path
-
+from tensorflow.keras.models import model_from_json
 import tensorflow as tf
 import streamlit as st
 
@@ -71,8 +71,14 @@ class PredictionPipeline:
             keras_img = np.expand_dims(keras_img, axis=0)
             keras_img = keras_img / 255.0
 
+            #old
+            # cancer_model = load_model(self.cancer_model_path)
 
-            cancer_model = load_model(self.cancer_model_path)
+            with open("artifacts/training/model.json", "r") as json_file:
+                model_json = json_file.read()
+
+            cancer_model = model_from_json(model_json)
+            cancer_model.load_weights("artifacts/training/model_weights.h5")
 
             # cancer_model = lung_classifier(input_shape=(224,224,3), num_classes=2, freeze_all=True)
             # cancer_model.load_weights("artifacts/training/model.h5")
