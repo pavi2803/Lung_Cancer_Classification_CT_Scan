@@ -13,6 +13,7 @@ import tensorflow as tf
 import streamlit as st
 from tensorflow.keras.models import load_model
 
+
 st.write(f"TensorFlow version: {tf.__version__}")
 
 
@@ -38,22 +39,6 @@ class LungDetector:
             predicted_class = torch.argmax(outputs, dim=1).item()
         return predicted_class  # 1 for lung, 0 for not lung
 
-
-
-
-def cancer_classifier(input_shape=(224, 224, 3), num_classes=2):
-    base_model = tf.keras.applications.VGG16(
-        input_shape=input_shape,
-        include_top=False,
-        weights="imagenet"
-    )
-    base_model.trainable = False
-
-    x = tf.keras.layers.Flatten()(base_model.output)
-    outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
-    model = tf.keras.Model(inputs=base_model.input, outputs=outputs)
-
-    return model
 
 
 # Main pipeline
@@ -88,21 +73,22 @@ class PredictionPipeline:
             keras_img = np.expand_dims(keras_img, axis=0)
             keras_img = keras_img / 255.0
 
-            #old
-            # cancer_model = load_model(self.cancer_model_path)
 
-            # with open("artifacts/training/model.json", "r") as json_file:
-            #     model_json = json_file.read()
+            # Load architecture
+            with open("artifacts/training/model.json", "r") as json_file:
+                loaded_model_json = json_file.read()
 
-            # cancer_model = model_from_json(model_json)
-            # cancer_model.load_weights("artifacts/training/model.weights.h5")
+            cancer_model = model_from_json(loaded_model_json)
 
-            # cancer_model = lung_classifier(input_shape=(224,224,3), num_classes=2, freeze_all=True)
-            # cancer_model.load_weights("artifacts/training/model.h5")
+            # Load weights
+            cancer_model.load_weights("artifacts/training/model.weights.h5")  # match the file name
 
-            # Rebuild and load weights
-        
-            cancer_model = load_model("artifacts/training/model.h5")
+            # Compile model AFTER loading weights
+            cancer_model.compile(
+                optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
+                loss="categorical_crossentropy",
+                metrics=["accuracy"]
+            )
 
             predictions = cancer_model.predict(keras_img)
             result = np.argmax(predictions, axis=1)
