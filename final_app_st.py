@@ -72,7 +72,7 @@ class PredictionPipeline:
             keras_img = keras_img / 255.0
 
 
-            cancer_model = load_model("artifacts/training/cancer_model_fixed.keras")
+            cancer_model = load_model("artifacts/training/cancer_model_fixed.h5")
 
             # Load weights
             # cancer_model.load_weights("artifacts/training/model.h5")  # match the file name
