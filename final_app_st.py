@@ -44,7 +44,7 @@ class PredictionPipeline:
     def __init__(self, image_bytes):
         self.image_bytes = image_bytes
         self.lung_model_path = Path("artifacts/lung_ct_resnet_model1.pth")
-        self.cancer_model_path = Path("artifacts/training/model.h5")
+        self.cancer_model_path = Path("artifacts/training/cancer_model_fixed.h5")
 
     def img_to_pil(self):
         img = Image.open(BytesIO(self.image_bytes)).convert("RGB")
@@ -72,7 +72,7 @@ class PredictionPipeline:
             keras_img = keras_img / 255.0
 
 
-            cancer_model = tf.keras.models.load_model("artifacts/training/cancer_model_fixed.h5", compile=False)
+            cancer_model = tf.keras.models.load_model(self.cancer_model_path, compile=False)
 
             # Load weights
             # cancer_model.load_weights("artifacts/training/model.h5")  # match the file name
