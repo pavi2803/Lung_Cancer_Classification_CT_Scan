@@ -6,14 +6,12 @@ import torch.nn as nn
 from torchvision import models, transforms
 import numpy as np
 import io
-from tensorflow.keras.models import load_model
-from tensorflow.keras.models import model_from_json
 import tensorflow as tf
 from pathlib import Path
 
 app = FastAPI()
 
-# Load PyTorch Lung Detector
+# PyTorch Lung Detector class
 class LungDetector:
     def __init__(self, model_path):
         self.device = torch.device("cpu")
@@ -29,43 +27,51 @@ class LungDetector:
         ])
 
     def predict(self, pil_image):
-        img = self.transform(pil_image).unsqueeze(0)
+        img = self.transform(pil_image).unsqueeze(0)  # batch dim
         with torch.no_grad():
             outputs = self.model(img)
             predicted_class = torch.argmax(outputs, dim=1).item()
-        return predicted_class  # 1 = Lung, 0 = NotLung
+        return predicted_class  # 1 for lung, 0 for not lung
 
-# Load lung detection model
-lung_model = LungDetector("artifacts/lung_ct_resnet_model1.pth")
+# Load models once at startup
+lung_model_path = Path("artifacts/lung_ct_resnet_model1.pth")
+cancer_model_path = Path("artifacts/training/model.h5")
 
-cancer_model = load_model("artifacts/training/model.h5")
+if not lung_model_path.exists() or not cancer_model_path.exists():
+    raise RuntimeError("Model files not found at the specified paths.")
 
-# cancer_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
-#                      loss="categorical_crossentropy",
-#                      metrics=["accuracy"])
+lung_detector = LungDetector(lung_model_path)
+cancer_model = tf.keras.models.load_model(str(cancer_model_path), compile=False)
+cancer_model.compile(
+    optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
+    loss="categorical_crossentropy",
+    metrics=["accuracy"]
+)
 
 def preprocess_image(image_bytes):
-    img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    img_resized = img.resize((224, 224))
-    img_array = np.array(img_resized) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
-    return img, img_array
+    pil_img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    keras_img = pil_img.resize((224, 224))
+    keras_img = np.array(keras_img) / 255.0
+    keras_img = np.expand_dims(keras_img, axis=0)
+    return pil_img, keras_img
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    image_bytes = await file.read()
-    pil_img, keras_input = preprocess_image(image_bytes)
-
     try:
-        is_lung = lung_model.predict(pil_img)
+        image_bytes = await file.read()
+        pil_img, keras_input = preprocess_image(image_bytes)
+
+        # Step 1: Lung detection using PyTorch model
+        is_lung = lung_detector.predict(pil_img)
         if is_lung != 0:
             return JSONResponse(content={"prediction": "NotLung"})
 
+        # Step 2: Cancer classification using TensorFlow model
         preds = cancer_model.predict(keras_input)
         result = np.argmax(preds, axis=1)[0]
-
         label = "Normal" if result == 1 else "Adenocarcinoma Cancer"
+
         return JSONResponse(content={"prediction": label})
-    
+
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)

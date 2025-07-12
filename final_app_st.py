@@ -14,9 +14,6 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 
 
-st.write(f"TensorFlow version: {tf.__version__}")
-
-
 # Load PyTorch Lung Detector
 class LungDetector:
     def __init__(self, model_path):
@@ -44,8 +41,8 @@ class PredictionPipeline:
     def __init__(self, image_bytes):
         self.image_bytes = image_bytes
         self.lung_model_path = Path("artifacts/lung_ct_resnet_model1.pth")
-        self.cancer_model_path = Path("artifacts/training/cancer_model_fixed.h5")
-
+        self.cancer_model_path = Path("artifacts/training/model.h5")
+ 
     def img_to_pil(self):
         img = Image.open(BytesIO(self.image_bytes)).convert("RGB")
         return img
@@ -114,3 +111,7 @@ if uploaded_file is not None:
         st.warning("⚠️ This does not appear to be a lung CT scan.")
     else:
         st.error(f"An error occurred: {result}")
+
+
+########################### Latest ##############################
+
