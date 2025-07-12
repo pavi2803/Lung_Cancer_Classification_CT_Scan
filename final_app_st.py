@@ -90,16 +90,103 @@ class PredictionPipeline:
             return f"Error: {str(e)}"
 
 
-# Streamlit UI
-st.title("Chest Cancer Prediction")
-st.subheader("Upload a lung CT image (jpg, jpeg or png)")
-st.write("This app will first detect if it's a lung CT image, and if yes, classify it.")
+################################ Header UI ###############################
+from pathlib import Path
 
-uploaded_file = st.file_uploader("Choose a CT scan image...", type=["jpg", "jpeg", "png"])
+logo_path = "artifacts/3843297.png"
+
+col1, col2 = st.columns([1, 5])
+with col1:
+    st.image(logo_path, width=60)
+with col2:
+    st.markdown("<h3 style='text-align: center;'> Chest CT Scan Analysis - Cancer Detection</h3>", unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <style>
+    .main {
+        background-color: #81a6b8;
+        padding: 2rem;
+    }
+
+    h1, h2, h3, h4, h5, h6,div {
+        color: #050505 !important;
+    }
+
+    .stApp {
+        background-color: #81a6b8;
+    }
+
+    .css-18e3th9 {
+        padding: 2rem;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    
+
+    .stFileUploader {
+        border: 2px dashed #888;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #fafafa;
+    }
+
+
+
+    /* Make file uploader box cleaner */
+    section[data-testid="stFileUploader"] > div {
+        padding: 10px;
+        border: 2px dashed #aaa;
+        border-radius: 10px;
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    /* Reduce uploader height and fix font */
+    section[data-testid="stFileUploader"] label {
+        font-size: 0.9rem;
+        color: #222831;
+    }
+
+    section[data-testid="stFileUploader"] svg {
+        height: 1.2rem;
+        width: 1.2rem;
+        color: #333;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+with st.expander("ℹ️ About this App"):
+    st.markdown("""
+    This app uses two AI models:
+
+    - A **ResNet18 model (PyTorch)** to check if the uploaded image is a lung CT.
+    - A **Keras CNN model (TensorFlow)** to classify the scan as **Normal** or **Adenocarcinoma Cancer**.
+    
+    All models are trained using **transfer learning**, and experiments are tracked with **MLflow**.
+    """)
+
+st.markdown("""<div style='text-align: center;'>
+    <p style='font-size: 15px;'>This app will detect if it's a valid lung CT scan and classify it as <strong>Normal</strong> or <strong>Adenocarcinoma Cancer</strong>.</p>
+</div>""", unsafe_allow_html=True)
+
+
+st.markdown("---")
+
+uploaded_file = st.file_uploader("Choose a CT scan image below:", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     image_bytes = uploaded_file.read()
-    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    # st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    st.image(uploaded_file, caption="Uploaded Image", width=300)
+
     
     pipeline = PredictionPipeline(image_bytes)
     result = pipeline.predict()
