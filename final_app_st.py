@@ -191,7 +191,7 @@ if uploaded_file is not None:
     pipeline = PredictionPipeline(image_bytes)
     result = pipeline.predict()
     if result == "Normal":
-        st.success("✅ It's Normal 😊")
+        st.success("✅ No Signs of Lung Problems Detected, Double Check with a Professional")
     elif result == "Adenocarcinoma Cancer":
         st.error("🚨 Adenocarcinoma Cancer Detected‼️ Please consult a doctor.")
     elif result == "NotLung":
