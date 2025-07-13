@@ -91,6 +91,8 @@ class PredictionPipeline:
 
 
 ################################ Header UI ###############################
+st.set_page_config(page_title="Chest CT Analysis", page_icon="🫁", layout="centered")
+
 from pathlib import Path
 
 logo_path = "artifacts/3843297.png"
