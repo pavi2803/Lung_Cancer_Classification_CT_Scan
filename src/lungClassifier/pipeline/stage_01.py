@@ -2,9 +2,7 @@ from config.configuration import ConfigurationManager
 from components.data_ingestion import DataIngestion
 from lungClassifier import logger
 
-
 STAGE_NAME = "DATA INGESTION STAGE"
-
 
 class DataIngestionTrainingPipeline:
     def __init__(self) -> None:

@@ -4,10 +4,7 @@ from lungClassifier import logger
 import os
 
 
-
-
 STAGE_NAME = "Training"
-
 
 
 class ModelTrainingPipeline:

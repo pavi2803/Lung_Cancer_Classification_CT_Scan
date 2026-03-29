@@ -9,7 +9,6 @@ from pathlib import Path
 class PrepareBaseModel:
     def __init__(self, config: PrepareBaseModelConfig):
         self.config = config
-
     
     def get_base_model(self):
         self.model = tf.keras.applications.vgg16.VGG16(
@@ -19,7 +18,6 @@ class PrepareBaseModel:
         )
 
         self.save_model(path=self.config.base_model_path, model=self.model)
-
 
     
     @staticmethod

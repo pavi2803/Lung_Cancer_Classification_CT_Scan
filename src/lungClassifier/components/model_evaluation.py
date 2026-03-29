@@ -11,7 +11,6 @@ class Evaluation:
     def __init__(self, config: EvaluationConfig):
         self.config = config
 
-    
     def _valid_generator(self):
 
         datagenerator_kwargs = dict(
@@ -35,7 +34,6 @@ class Evaluation:
             shuffle=False,
             **dataflow_kwargs
         )
-
 
     @staticmethod
     def load_model(path: Path) -> tf.keras.Model:
